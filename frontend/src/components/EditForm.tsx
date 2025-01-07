@@ -21,6 +21,7 @@ import { useNavigate } from "react-router-dom";
 
 export function EditForm({ product }: { product: Product }) {
   const nav = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [currentProduct, setCurrentProduct] = useState(product);
   const { _id } = currentProduct;
   const { getProductById } = useProductStore();
@@ -51,12 +52,14 @@ export function EditForm({ product }: { product: Product }) {
     },
   });
   async function onSubmit(data: z.infer<typeof FormSchema>) {
+    setLoading(true);
     if (currentProduct._id) {
       const response = await updateProduct(currentProduct._id, {
         ...data,
         price: Number(data.price),
       });
       if (response.success) {
+        setLoading(false);
         form.reset();
         toast({ title: "Success", description: response.message });
         nav(0);
@@ -123,8 +126,8 @@ export function EditForm({ product }: { product: Product }) {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full">
-          Modify
+        <Button type="submit" className="w-full" disabled={loading}>
+          {loading ? "Modify..." : "Modify"}
         </Button>
       </form>
     </Form>

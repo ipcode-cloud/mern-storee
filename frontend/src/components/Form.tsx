@@ -16,6 +16,7 @@ import { toast } from "@/hooks/use-toast";
 import { Textarea } from "./ui/textarea";
 import { useProductStore } from "@/store/product";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 export const FormSchema = z.object({
   _id: z.string().optional(),
@@ -35,6 +36,7 @@ export const FormSchema = z.object({
 
 export function InputForm() {
   const nav = useNavigate();
+  const [loading, setLoading] = useState(false)
   const { createNewProduct } = useProductStore();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -46,11 +48,13 @@ export function InputForm() {
     },
   });
   async function onSubmit(data: z.infer<typeof FormSchema>) {
+    setLoading(true);
     const response = await createNewProduct({
       ...data,
       price: Number(data.price),
     });
     if (response.success) {
+      setLoading(false);
       form.reset();
       toast({ title: "Success", description: response.message });
       nav(0);
@@ -114,10 +118,11 @@ export function InputForm() {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full">
-          Submit
+        <Button type="submit" className="w-full" disabled={loading}>
+          {loading ? "Loading..." : "Add product"}
         </Button>
       </form>
     </Form>
   );
 }
+
