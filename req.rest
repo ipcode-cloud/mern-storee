@@ -1,0 +1,27 @@
+POST http://localhost:3000/api/products
+Content-Type: application/json
+
+{
+  "name": "iPhone",
+  "price": 1200,
+  "description": "The iPhone is a smartphone designed, developed, and marketed by Apple Inc.",
+  "imageUrl": "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-12-blue-select-2020?wid=940&hei=1112&fmt=png-alpha&qlt=80&.v=1604343704000"
+}
+###
+GET http://localhost:3000/api/products
+
+###
+GET http://localhost:3000/api/products/677aa48bcba7ef0c8ba6b8f2
+
+###
+PUT http://localhost:3000/api/products/677aa48bcba7ef0c8ba6b8f2
+Content-Type: application/json
+
+{
+  "name": "iPhone 12",
+  "price": 1500,
+  "description": "The iPhone is a smartphone designed, developed, and marketed by Apple Inc.",
+  "imageUrl": "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-12-blue-select-2020?wid=940&hei=1112&fmt=png-alpha&qlt=80&.v=1604343704000"
+}
+###
+DELETE http://localhost:3000/api/products/677aa48bcba7ef0c8ba6b8f2
